@@ -1,0 +1,28 @@
+gradio==3.35.2
+langchain==0.0.223
+openai==0.27.8
+chromadb==0.3.26
+tiktoken==0.4.0
+faiss-cpu==1.7.4
+beautifulsoup4==4.12.2 
+soupsieve==2.4.1 
+wikipedia==1.4.0
+DateTime==5.1 
+zope.interface==6.0
+pypdf==3.12.2
+brotli==1.0.9 
+mutagen==1.46.0 
+pycryptodomex==3.18.0 
+yt_dlp==2023.7.6
+bleach==6.0.0 
+bokeh==3.2.1 
+markdown==3.4.3 
+panel==1.2.0 
+param==1.13.0 
+pyviz-comms==2.3.2 
+tornado==6.3.2 
+webencodings==0.5.1 
+xyzservices==2023.7.0
+
+# pytest==7.3.2
+# torch==2.0.1
