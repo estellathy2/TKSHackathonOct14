@@ -37,8 +37,8 @@ prompt_template = ChatPromptTemplate.from_template(
 
 
 
-
-def score(input):
+# Fetches confidence scores from language model
+def get_scores(input_txt):
 
     azure_model_name = "gpt-35-turbo"
     chat = AzureChatOpenAI(
@@ -48,19 +48,31 @@ def score(input):
                 max_tokens=2000
         )
 
-    prompt = prompt_template.format_messages(text=input())
+    prompt = prompt_template.format_messages(text=input_txt)
     response = chat(prompt)
 
     return return json.loads(response)
 
 
-history_chat = [
-    SystemMessage(content="You are a helpful assistant that helps teenagers plan their university, major, and future career path."),
-]
+# Processes json output into text
+def gr_out(input_txt):
+    llm_output = get_scores(input_text)
+    explanation = ""
+    
+    explanation += f"Suspician: {int(explanation.get('scam')*100)}% \n"
+    
+    if explanation.get("scam") < 0.25:
+        return explanation + "This message is unlikely to be a scam."
+    explanation += f"This message might be a scam.\n"
+    
+    if explanation.get("money") >= explanation.get("info"):
+        return explanation + f"The sender may be trying to steal money. Suspician: {int(explanation.get('money')*100)
+    return explanation + f"The sender may be trying to steal personal information. Suspician: {int(explanation.get('info')*100)}%"
 
-demo = gr.Interface(fn=predict,
-             inputs=["text",'state'],
-             outputs=["chatbot",'state']).launch(debug = True, share = True)
+
+demo = gr.Interface(fn=gr_out,
+             inputs="text",
+             outputs="text").launch(debug = True, share = True)
 
 
 demo.launch()
