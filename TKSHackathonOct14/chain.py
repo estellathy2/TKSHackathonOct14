@@ -54,11 +54,8 @@ def score(input):
     return return json.loads(response)
 
 
-history_chat = [
-    SystemMessage(content="You are a helpful assistant that helps teenagers plan their university, major, and future career path."),
-]
 
-demo = gr.Interface(fn=predict,
+demo = gr.Interface(fn=score,
              inputs=["text",'state'],
              outputs=["chatbot",'state']).launch(debug = True, share = True)
 
