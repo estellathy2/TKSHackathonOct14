@@ -46,7 +46,7 @@ prompt_8 = ChatPromptTemplate.from_template("Make sure the person texting me doe
 chain_8 = LLMChain(llm = llm, prompt = prompt_8, output_key = "672")
 
 
-prompt_9 = ChatPromptTemplate.from_template("Make sure the message is not asking for a payment"
+prompt_9 = ChatPromptTemplate.from_template("Make sure the message is not asking for a payment")
 chain_9 = LLMChain(llm = llm, prompt = prompt_9, output_key = "payment")
 
 
@@ -57,7 +57,7 @@ def predict(input, history=[]):
     chat = AzureChatOpenAI(
                 deployment_name=azure_model_name,
                 model_name=azure_model_name,
-                temperature=0.3,
+                temperature=0.0,
                 max_tokens=2000
         )
 
