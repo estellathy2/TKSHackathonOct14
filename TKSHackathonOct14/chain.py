@@ -54,6 +54,7 @@ def get_scores(input_txt):
     return return json.loads(response)
 
 
+
 # Processes json output into text
 def gr_out(input_txt):
     llm_output = get_scores(input_text)
@@ -66,13 +67,12 @@ def gr_out(input_txt):
     explanation += f"This message might be a scam.\n"
     
     if explanation.get("money") >= explanation.get("info"):
-        return explanation + f"The sender may be trying to steal money. Suspician: {int(explanation.get('money')*100)
+        return explanation + f"The sender may be trying to steal money. Suspician: {int(explanation.get('money')*100)}%"
     return explanation + f"The sender may be trying to steal personal information. Suspician: {int(explanation.get('info')*100)}%"
 
 
 demo = gr.Interface(fn=gr_out,
              inputs="text",
              outputs="text").launch(debug = True, share = True)
-
 
 demo.launch()
