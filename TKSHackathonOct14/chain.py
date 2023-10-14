@@ -2,7 +2,12 @@ import gradio as gr
 from langchain.chat_models import AzureChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain.chains import SequentialChain
+
+from langchain.output_parsers import ResponseSchema
+from langchain.output_parsers import StructuredOutputParser
+
 import os
+import json
 from dotenv import load_dotenv, find_dotenv
 import warnings
 
@@ -31,8 +36,9 @@ prompt_template = ChatPromptTemplate.from_template(
 )
 
 
-def predict(input, history=[]):
 
+
+def score(input):
 
     azure_model_name = "gpt-35-turbo"
     chat = AzureChatOpenAI(
@@ -42,20 +48,16 @@ def predict(input, history=[]):
                 max_tokens=2000
         )
 
+    prompt = prompt_template.format_messages(text=input())
+    response = chat(prompt)
 
-    history_chat.append(HumanMessage(content=input))
-    print(f"******{history_chat}")
-    response = chat(history_chat)
-    history_chat.append(AIMessage(content=response.content))
-    history.append((input, response.content))
-
-
-    return history, history
+    return return json.loads(response)
 
 
 history_chat = [
     SystemMessage(content="You are a helpful assistant that helps teenagers plan their university, major, and future career path."),
 ]
+
 demo = gr.Interface(fn=predict,
              inputs=["text",'state'],
              outputs=["chatbot",'state']).launch(debug = True, share = True)
